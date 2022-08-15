@@ -44,8 +44,7 @@ def train():
     model = SimpleAutoencoder()
     trainer = pl.Trainer(limit_train_batches=100, max_epochs=10)
 
-    trainer.fit(model, train)
-    #trainer.validate(model, val)
+    trainer.fit(model, train, val)
     trainer.test(model, test)
 
 def run(args):

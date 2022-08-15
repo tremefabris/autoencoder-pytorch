@@ -32,6 +32,22 @@ class SimpleAutoencoder(pl.LightningModule):
         loss  = nn.functional.mse_loss(x_hat, x)
         return loss
 
+    def validation_step(self, batch, batch_idx):
+        x, y  = batch
+        x     = x.view(x.size(0), -1)
+        z     = self.encoder(x)
+        x_hat = self.decoder(z)
+        loss  = nn.functional.mse_loss(x_hat, x)
+        return loss
+
+    def test_step(self, batch, batch_idx):
+        x, y  = batch
+        x     = x.view(x.size(0), -1)
+        z     = self.encoder(x)
+        x_hat = self.decoder(z)
+        loss  = nn.functional.mse_loss(x_hat, x)
+        return loss
+
     def configure_optimizers(self):
         optimizer = optim.Adam(self.parameters(), lr=1e-3)
         return optimizer
